@@ -6,6 +6,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @Configuration
@@ -17,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class CancellationApp {
 
-
-    public String home() {
+    @RequestMapping(value = "appointment", method = RequestMethod.DELETE)
+    public String cancelAppointment() {
         return "Hello world";
     }
 
