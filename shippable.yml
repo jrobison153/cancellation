@@ -1,0 +1,19 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+build:
+
+  ci:
+    - gradle build
+
+  on_success:
+    - docker build -t="jrobison151/cancellation" .
+    - docker push jrobison151/cancellation
+
+  integrations:
+    hub:
+        - integrationName: dockerhub
+          type: docker
+
