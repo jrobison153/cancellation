@@ -9,8 +9,8 @@ build:
     - gradle build
 
   on_success:
-    - docker build -t="jrobison151/cancellation" .
-    - docker push jrobison151/cancellation
+    - docker build -t="jrobison151/cancellation:$BRANCH.$BUILD_NUMBER" .
+    - docker push jrobison151/cancellation:$BRANCH.$BUILD_NUMBER
 
   integrations:
     hub:
