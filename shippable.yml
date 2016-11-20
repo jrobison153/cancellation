@@ -14,7 +14,7 @@ build:
 
   integrations:
     hub:
-        - integrationName: dhub
+        - integrationName: dockerhub
           type: docker
           branches:
             only:
