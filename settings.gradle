@@ -1,2 +1,5 @@
 rootProject.name = 'cancellation'
 
+include 'spring'
+include 'lambda'
+include 'core'

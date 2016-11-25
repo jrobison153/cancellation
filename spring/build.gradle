@@ -16,6 +16,9 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'spring-boot'
 
+jar.baseName = 'cancellation'
+jar.appendix = 'spring'
+
 sourceCompatibility = 1.8
 
 repositories {
@@ -33,34 +36,6 @@ dependencies {
     compile 'org.springframework.cloud:spring-cloud-starter-config'
     compile 'org.springframework.cloud:spring-cloud-starter-eureka'
     compile 'org.springframework.boot:spring-boot-starter-actuator'
-    compile 'com.amazonaws:aws-lambda-java-core:1.1.0'
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
-
-//BEGIN - Configure jar to build the spring fat jar, default build artifact
-
-jar {
-
-    exclude 'com/spacecorpshandbook/ostium/handler/**'
-
-    appendix = 'jaxrs'
-}
-
-//END - Configure jar to build the spring fat jar, default build artifact
-
-//BEGIN - Configure jar to build the AWS lambda handler jar
-
-task lambda(type: Jar) {
-
-    from(sourceSets.main.output) {
-
-        exclude 'com/spacecorpshandbook/ostium/app/**'
-    }
-
-    appendix = 'lambda'
-}
-
-//END - Configure jar to build the AWS lambda handler jar
-
-jar.dependsOn('lambda')
