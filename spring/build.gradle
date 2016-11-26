@@ -13,17 +13,11 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
 apply plugin: 'spring-boot'
 
 jar.baseName = 'cancellation'
 jar.appendix = 'spring'
 
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
 
 dependencyManagement {
     imports {
@@ -36,6 +30,4 @@ dependencies {
     compile 'org.springframework.cloud:spring-cloud-starter-config'
     compile 'org.springframework.cloud:spring-cloud-starter-eureka'
     compile 'org.springframework.boot:spring-boot-starter-actuator'
-
-    testCompile group: 'junit', name: 'junit', version: '4.11'
 }

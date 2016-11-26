@@ -1,4 +1,4 @@
-package com.spacecorpshandbook.ostium.app;
+package com.spacecorpshandbook.ostium.spring.app;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
