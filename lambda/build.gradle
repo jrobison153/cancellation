@@ -18,13 +18,19 @@ task fatJar(type: Jar) {
                 'Implementation-Version': version
     }
 
-    baseName = project.name + '-all'
+    baseName = jar.baseName
+    appendix = jar.appendix + '-all'
 
     from {
 
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.compile.collect {
+
+            it.isDirectory() ? it : zipTree(it)
+        }
     } {
         exclude 'scala/**/*.class'
     }
     with jar
 }
+
+jar.dependsOn('fatJar')
