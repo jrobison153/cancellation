@@ -1,10 +1,9 @@
 package com.spacecorpshandbook.ostium.spring.controller
 
+import com.spacecorpshandbook.ostium.core.model.{Appointment, CancelResponse}
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.{RequestBody, RequestMapping, RequestMethod, RestController}
 
 @RestController
 @Configuration
@@ -13,8 +12,12 @@ import org.springframework.web.bind.annotation.RestController
 class CancelController {
 
   @RequestMapping(value = Array("appointment"), method = Array(RequestMethod.DELETE))
-  def cancelAppointment: String = {
+  def cancelAppointment(@RequestBody appointment: Appointment): CancelResponse = {
 
-    return "Hello world"
+    val response : CancelResponse = new CancelResponse()
+
+    response.setMessage("Appointment cancelled for id: " + appointment.appointmentId)
+
+    return response
   }
 }
