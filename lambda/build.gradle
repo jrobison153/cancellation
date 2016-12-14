@@ -10,6 +10,7 @@ dependencies {
 
     compile 'com.amazonaws:aws-lambda-java-core:1.1.0'
     compile 'com.spacecorpshandbook.ostium:core:1.0.0-SNAPSHOT'
+    compile 'commons-io:commons-io:2.5'
 }
 
 task fatJar(type: Jar) {

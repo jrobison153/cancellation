@@ -18,6 +18,6 @@ class ApiGatewayProxyResponse {
   var headers: Map[String, String] = null
 
   @BeanProperty
-  var body: String = ""
+  var body: CancelResponse = null
 
 }
