@@ -12,12 +12,12 @@ import scala.beans.BeanProperty
 class ApiGatewayProxyResponse {
 
   @BeanProperty
-  var statusCode: String = ""
+  var statusCode: String = _
 
   @BeanProperty
-  var headers: Map[String, String] = null
+  var headers: Map[String, String] = _
 
   @BeanProperty
-  var body: CancelResponse = null
+  var body: String = _
 
 }

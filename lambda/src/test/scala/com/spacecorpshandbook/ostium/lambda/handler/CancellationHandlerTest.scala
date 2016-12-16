@@ -4,6 +4,7 @@ import java.io.{ByteArrayInputStream, InputStream, OutputStream}
 
 import com.amazonaws.services.lambda.runtime.Context
 import com.google.gson.{Gson, JsonObject, JsonParser}
+import com.spacecorpshandbook.ostium.core.model.Appointment
 import org.apache.commons.io.IOUtils
 import org.hamcrest.CoreMatchers.containsString
 import org.junit.runner.RunWith
@@ -13,7 +14,6 @@ import org.mockito.Mockito.{mock, when}
 import org.powermock.api.mockito.PowerMockito
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
-import temp.Appointment
 
 @RunWith(classOf[PowerMockRunner])
 @PrepareForTest(Array {

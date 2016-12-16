@@ -1,13 +1,14 @@
 package com.spacecorpshandbook.ostium.lambda.handler
 
+import java.io.{IOException, InputStream, OutputStream}
 import java.util
 
-import com.google.gson.{Gson, JsonObject, JsonParser}
-import temp.{ApiGatewayProxyResponse, Appointment, CancelResponse}
-import java.io.{IOException, InputStream, OutputStream}
-
 import com.amazonaws.services.lambda.runtime.Context
+import com.google.gson.{Gson, JsonObject, JsonParser}
 import org.apache.commons.io.IOUtils
+import com.spacecorpshandbook.ostium.core.model.{Appointment, CancelResponse}
+import com.spacecorpshandbook.ostium.lambda.proxy.ApiGatewayProxyResponse
+
 
 /**
   * Amazon Lambda handler adapter for the Cancellation application
@@ -16,16 +17,32 @@ class CancellationHandler {
 
   def cancelAppointment(request: InputStream, response: OutputStream, context: Context): Unit = {
 
-    val logger = context.getLogger
+    val appointment: Appointment = convertStreamToAppointment(request, context)
+
+    val cancelResponse: CancelResponse = cancelTheAppointment(appointment)
+
+    val output = convertAppointmentToString(response, cancelResponse)
+
+    IOUtils.write(output, response, "UTF-8")
+  }
+
+  private[this] def convertStreamToAppointment(request: InputStream, context: Context): Appointment = {
+
+
     val parser: JsonParser = new JsonParser
-    var inputObj: JsonObject = null
     val gson: Gson = new Gson
+    var inputObj: JsonObject = null
+    val logger = context.getLogger
 
     try {
 
       inputObj = parser.parse(IOUtils.toString(request, "UTF-8")).getAsJsonObject
 
-      System.out.println(inputObj.toString)
+      val body: String = inputObj.get("body").getAsString
+      val appointment: Appointment = gson.fromJson(body, classOf[Appointment])
+
+      appointment
+
     } catch {
 
       case e: IOException =>
@@ -34,14 +51,22 @@ class CancellationHandler {
         throw new RuntimeException(e.getMessage)
 
     }
+  }
 
-    val body: String = inputObj.get("body").getAsString
-    val appointment: Appointment = gson.fromJson(body, classOf[Appointment])
+  private[this] def cancelTheAppointment(appointment: Appointment): CancelResponse = {
 
-    val apiGatewayProxyResponse = new ApiGatewayProxyResponse
     val cancelResponse = new CancelResponse
 
     cancelResponse.setMessage("Cancelled appointment with id " + appointment.getAppointmentId)
+
+    cancelResponse
+  }
+
+  private[this] def convertAppointmentToString(outputStream: OutputStream, cancelResponse: CancelResponse): String = {
+
+    val apiGatewayProxyResponse = new ApiGatewayProxyResponse
+
+    val gson: Gson = new Gson
 
     apiGatewayProxyResponse.setBody(gson.toJson(cancelResponse))
 
@@ -53,11 +78,8 @@ class CancellationHandler {
 
     apiGatewayProxyResponse.setHeaders(headerValues)
 
-    System.out.println("+++++ message before returning: " + apiGatewayProxyResponse.getBody)
-
     val output: String = gson.toJson(apiGatewayProxyResponse)
 
-    IOUtils.write(output, response, "UTF-8")
+    output
   }
-
 }
